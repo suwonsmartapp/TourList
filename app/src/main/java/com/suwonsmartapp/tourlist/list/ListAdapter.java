@@ -17,6 +17,10 @@ import java.util.ArrayList;
  * Created by sangmun on 2015-04-01.
  */
 public class ListAdapter extends ArrayAdapter<TourList>{
+    private static final int sTitleLength = 25;
+    private static final int sContentLength = 60;
+    private static final int REQ_CODE_PICK_IMAGE = 0;
+    private static final String TAG = "ssm_img_main";
 
     // ViewHolder 패턴
     static class ViewHolder {
@@ -77,31 +81,38 @@ public class ListAdapter extends ArrayAdapter<TourList>{
 
         TourList tourlist = getItem(position);
         int mainImg = tourlist.getmListMainImg();
-        String mainTitle = (String) tourlist.getmLIstMainTitle();
-        String mainDate = (String) tourlist.getmListMainDate();
-        String mainContent = (String) tourlist.getmListMainContent();
+        String mainTitle = tourlist.getmLIstMainTitle();
+        String mainDate = tourlist.getmListMainDate();
+        String mainContent = tourlist.getmListMainContent();
         int subImg1 = tourlist.getmListSubImg1();
         int subImg2 = tourlist.getmListSubImg2();
         int subImg3 = tourlist.getmListSubImg3();
         int subImg4 = tourlist.getmListSubImg4();
         int subImg5 = tourlist.getmListSubImg5();
 
+        if (mainImg == 0) mainImg = R.drawable.no_image;
         holder.mListMainImg.setImageResource(mainImg);
 
-        if (!TextUtils.isEmpty(mainTitle)) {
+        if (!TextUtils.isEmpty(mainTitle)){
+            if(mainTitle.length() > sTitleLength) mainTitle = mainTitle.substring(0, sTitleLength) + "..";
             holder.mLIstMainTitle.setText(mainTitle);
         }
-        if (!TextUtils.isEmpty(mainDate)) {
-            holder.mListMainDate.setText(mainDate);
-        }
-        if (!TextUtils.isEmpty(mainContent)) {
+        if (TextUtils.isEmpty(mainDate)) mainDate = "0000-00-00";
+        holder.mListMainDate.setText(mainDate);
+        if (!TextUtils.isEmpty(mainContent)){
+            if(mainContent.length() > sContentLength) mainContent = mainContent.substring(0, sContentLength) + "..";
             holder.mListMainContent.setText(mainContent);
         }
 
+        if (subImg1 == 0) subImg1 = R.drawable.no_image;
         holder.mListSubImg1.setImageResource(subImg1);
+        if (subImg2 == 0) subImg2 =  R.drawable.no_image;
         holder.mListSubImg2.setImageResource(subImg2);
+        if (subImg3 == 0) subImg3 =  R.drawable.no_image;
         holder.mListSubImg3.setImageResource(subImg3);
+        if (subImg4 == 0) subImg4 =  R.drawable.no_image;
         holder.mListSubImg4.setImageResource(subImg4);
+        if (subImg5 == 0) subImg5 =  R.drawable.no_image;
         holder.mListSubImg5.setImageResource(subImg5);
 
         // 완성된 View return

@@ -26,7 +26,7 @@ public class TourList {
         this.mListSubImg5 = mListSubImg5;
     }
 
-    public int getmListMainImg() {
+    public int  getmListMainImg() {
         return mListMainImg;
     }
 
