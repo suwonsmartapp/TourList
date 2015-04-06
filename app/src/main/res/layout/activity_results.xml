@@ -9,14 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.suwonsmartapp.tourlist.ResultsActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -86,14 +86,16 @@
                 android:layout_marginTop="10dp"
                 android:text="Pictures" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></LinearLayout>
+            <GridView
+                android:id="@+id/gv_pictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="2" />
 
 
         </LinearLayout>
 
-    </ScrollView>
+    <!--</ScrollView>-->
 
 
 </LinearLayout>
