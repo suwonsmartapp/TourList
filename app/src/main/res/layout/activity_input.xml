@@ -96,6 +96,12 @@
                 android:layout_height="wrap_content"
                 android:text="Location" />
 
+            <Button
+                android:id="@+id/date_Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1999년 09월 09일" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
