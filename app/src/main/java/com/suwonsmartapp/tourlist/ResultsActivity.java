@@ -1,27 +1,25 @@
 
 package com.suwonsmartapp.tourlist;
 
-import com.suwonsmartapp.tourlist.adapter.PictureAdapter;
+import com.suwonsmartapp.tourlist.adapter.PictureLayout;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
 
 public class ResultsActivity extends ActionBarActivity {
 
-    private GridView mGridView;
+    private PictureLayout mPictureLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        mGridView = (GridView) findViewById(R.id.gv_pictures);
-        PictureAdapter pictureAdapter = new PictureAdapter(getApplicationContext());
-        mGridView.setAdapter(pictureAdapter);
+        mPictureLayout = (PictureLayout) findViewById(R.id.tableLayout_pictures);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
