@@ -41,7 +41,7 @@ public class SettingsActivity extends PreferenceActivity implements
         // 개발자 정보
         else if (preference.getKey().equals("developer")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("신남교 sssn000@hanmail.net \n전영일 askpc@hanmail.net \n손상문 irinssm@gmail.com \n유준택 juntaekryoo@gmail.com \n현기웅 \n 배꽃그리고솔");
+            builder.setMessage("신남교 sssn000@hanmail.net \n-액션바의 메뉴담당 \n\n전영일 askpc@hanmail.net \n-지도담당 \n\n손상문 irinssm@gmail.com \n-목록담당 \n\n유준택 juntaekryoo@gmail.com \n-수정,결과입력화면 담당 \n\n현기웅 \n-DB담당 \n\n 배꽃그리고솔 \n-리스트화면 구현담당");
             builder.setCancelable(false);
             builder.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
                 // 닫기 버튼 클릭시 설정
