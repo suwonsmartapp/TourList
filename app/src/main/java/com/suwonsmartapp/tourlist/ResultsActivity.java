@@ -3,6 +3,7 @@ package com.suwonsmartapp.tourlist;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -55,6 +56,8 @@ public class ResultsActivity extends ActionBarActivity {
 
             return true;
         } else if (id == R.id.action_preferences) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
 
             return true;
         }

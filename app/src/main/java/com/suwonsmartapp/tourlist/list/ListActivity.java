@@ -1,3 +1,4 @@
+
 package com.suwonsmartapp.tourlist.list;
 
 import java.util.ArrayList;
@@ -38,18 +39,48 @@ public class ListActivity extends ActionBarActivity implements AdapterView.OnIte
         mListAdapter.setOnItemClickListener(this);
     }
 
-    void tourListLoad(){
+    void tourListLoad() {
         tourList = new ArrayList<>();
-        tourList.add(new TourList(R.drawable.car, "제목 제목 1", "2015-01-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 ", R.drawable.gold_apple, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.girl, "제목 제목 2", "2015-02-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 3", "2015-03-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.car, "제목 제목 4", "2015-04-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.girl, "제목 제목 5", "2015-05-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 6", "2015-06-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.car, "제목 제목 7", "2015-07-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.girl, "제목 제목 8", "2015-08-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 9", "2015-09-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
-        tourList.add(new TourList(R.drawable.car, "제목 제목 10", "2015-10-01", "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용", R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car, R.drawable.car));
+        tourList.add(new TourList(R.drawable.car, "제목 제목 1", "2015-01-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 ",
+                R.drawable.gold_apple, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.girl, "제목 제목 2", "2015-02-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 3", "2015-03-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.car, "제목 제목 4", "2015-04-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.girl, "제목 제목 5", "2015-05-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 6", "2015-06-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.car, "제목 제목 7", "2015-07-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.girl, "제목 제목 8", "2015-08-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.gold_apple, "제목 제목 9", "2015-09-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
+        tourList.add(new TourList(R.drawable.car, "제목 제목 10", "2015-10-01",
+                "본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용 본문내용  본문내용",
+                R.drawable.car, R.drawable.girl, R.drawable.gold_apple, R.drawable.car,
+                R.drawable.car));
     }
 
     @Override
