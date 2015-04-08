@@ -1,12 +1,15 @@
 
 package com.suwonsmartapp.tourlist;
 
-import com.suwonsmartapp.tourlist.adapter.PictureLayout;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.suwonsmartapp.tourlist.adapter.PictureLayout;
 
 public class ResultsActivity extends ActionBarActivity {
 
@@ -35,8 +38,34 @@ public class ResultsActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        // noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_crystal) {
+
+            return true;
+        } else if (id == R.id.action_deletion) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("삭제 하시겠습니까?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                // 확인 버튼 클릭시 설정
+                public void onClick(DialogInterface dialog, int WhichButton) {
+                    finish();
+
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                // 취소 버튼 클릭시 설정
+                public void onClick(DialogInterface dialog, int WhichButton) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+
+            return true;
+        } else if (id == R.id.action_preferences) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
+
             return true;
         }
 

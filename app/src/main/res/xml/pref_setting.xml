@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="백업">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="useUpdate"
+            android:summary="구글 드라이브에 자동으로 백업합니다."
+            android:title="백업" />
+
+        <Preference
+            android:key="setting_action"
+            android:summary="백업한 것을 복원합니다."
+            android:title="복원"></Preference>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="어플 정보">
+
+        <Preference
+            android:key="developer"
+            android:summary="개발자 정보를 확인 합니다."
+            android:title="개발자 정보">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
