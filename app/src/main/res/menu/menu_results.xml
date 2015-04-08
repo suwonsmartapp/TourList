@@ -3,8 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.suwonsmartapp.tourlist.ResultsActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_crystal"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="수정"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_deletion"
+        android:orderInCategory="101"
+        android:title="삭제"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_preferences"
+        android:orderInCategory="102"
+        android:title="환경설정"
+        app:showAsAction="never" />
+
+
 </menu>
