@@ -15,13 +15,11 @@ import com.suwonsmartapp.tourlist.R;
 import com.suwonsmartapp.tourlist.image.adapter.GridAdapter;
 import com.suwonsmartapp.tourlist.image.bitmapUtil.BitmapScaleSetting;
 import com.suwonsmartapp.tourlist.image.bitmapUtil.Constant;
+import com.suwonsmartapp.tourlist.image.util.GetMaxTextureSize;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class GalleryActivity extends ActionBarActivity implements View.OnClickListener {
 
     // 상수
@@ -40,7 +38,6 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
     // Adapter
     private GridAdapter mGridAdapter;
 
-    // Cache
 
     private void init() {
         mBtnGetImg = (Button) findViewById(R.id.btn_get_img);
@@ -55,8 +52,14 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        // Data init
         init();
+
+        // get a phone's max texture size
+        GetMaxTextureSize getMaxTextureSize = new GetMaxTextureSize();
+        Constant.setMaxTextureSize(getMaxTextureSize.getMaxTextureSize());
         mBitmapScaleSetting = new BitmapScaleSetting(getPackageName(), Constant.getMaxTextureSize(), getApplicationContext());
+
 
         /*
             String cacheName = "gallery";
@@ -82,14 +85,13 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         // click listener 바인딩
         mBtnGetImg.setOnClickListener(this);
 
-
     } // onCreate
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_get_img:
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, SELECT_FROM_GALLERY);
                 break;
@@ -104,14 +106,11 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         if (requestCode == SELECT_FROM_GALLERY) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = data.getData(); // Received Data from the intent
-                // String path = uri.getPath();
-                // Log.d(TAG, "path : " + path);
 
                 mUriList.add(uri);
                 mBitmapScaleSetting.setTempImageFile();
 
                 mGridAdapter.setmShowBtns(false);
-                // mGridAdapter.notifyDataSetChanged();
             }
         }
     }
