@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="1px"
+    android:layout_height="1px"
+    android:id="@+id/ll_image_test"
+    tools:context="com.baeflower.sol.gallerysample.GetMaxImageSizeActivity"
+    android:orientation="vertical">
+
+</LinearLayout>
