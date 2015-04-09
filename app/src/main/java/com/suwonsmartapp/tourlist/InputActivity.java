@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
 
@@ -25,10 +27,17 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
     private Button mTravelDateBtn;
     private DatePicker view;
     private Button mLocationBtn;
+    private TextView mid_location_addr;
 
     private int year;
     private int month;
     private int day;
+
+    private static final int REQUEST_CODE_A = 0x5a5a;
+    private static final int REQUEST_CODE_B = 0xa5a5;
+    private String myAddress = "";
+    private String myAddressError = "주소가 검색되지 않았습니다.";
+
     private DatePickerDialog.OnDateSetListener dateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -53,6 +62,7 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         mcontents = (EditText) findViewById(R.id.contents);
         mTravelDateBtn = (Button) findViewById(R.id.date_Btn);
         mLocationBtn = (Button) findViewById(R.id.location_Btn);
+        mid_location_addr = (TextView) findViewById(R.id.id_location_addr);
 
         GregorianCalendar calendar = new GregorianCalendar();
         year = calendar.get(Calendar.YEAR);
@@ -74,7 +84,12 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), MapAlbumActivity.class);
-                startActivity(intent);
+//                startActivity(intent);
+
+                intent.putExtra("key", "MapAlbum");
+                intent.putExtra("code", REQUEST_CODE_A);
+                startActivityForResult(intent, REQUEST_CODE_A);
+
             }
         });
 
@@ -85,4 +100,17 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
     public void onClick(View v) {
         startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_A && resultCode == RESULT_OK) {
+            myAddress = data.getStringExtra("data");
+            mid_location_addr.setText(myAddress);
+        } else {
+            mid_location_addr.setText(myAddressError);
+        }
+    }
+
 }

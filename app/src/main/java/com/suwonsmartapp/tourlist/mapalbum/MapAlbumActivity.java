@@ -70,7 +70,7 @@ public class MapAlbumActivity extends FragmentActivity {
 
     private static final int REQUEST_CODE_A = 0x5a5a;
     private static final int REQUEST_CODE_B = 0xa5a5;
-    private String getAddress = "address";
+    private String myAddress = "";
 
 
     @Override
@@ -121,20 +121,6 @@ public class MapAlbumActivity extends FragmentActivity {
                     semaphoreLongTouch = true;           // 롱터치가 발생했는지를 알리는 플래그
                 }
             });
-        }
-    }
-
-    //        Intent intent = new Intent(getApplicationContext(), GoogleMapUtility.class);
-//        intent.putExtra("key", getAddress);
-//        intent.putExtra("code", REQUEST_CODE_A);
-//        startActivityForResult(intent, REQUEST_CODE_A);
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_A && resultCode == RESULT_OK) {
-            Toast.makeText(getApplicationContext(), data.getStringExtra("data"), Toast.LENGTH_SHORT)
-                    .show();
         }
     }
 
