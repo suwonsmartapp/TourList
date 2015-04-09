@@ -7,4 +7,15 @@
     <string name="title_activity_input">InputActivity</string>
     <string name="title_activity_results">ResultsActivity</string>
     <string name="title_activity_list">ListActivity</string>
+
+    <!-- map activity에서 사용하는 variables -->
+    <string name="title_activity_mapalbum">Main2Activity</string>
+    <string name="title_activity_google_mapki_util">GoogleMapkiUtil</string>
+
+    <string name="hello">Hello World, GoogleMapkiexampleActivity!</string>
+    <string name="longTouchPlease">길게 터치한 후 기다려 주세요.</string>
+    <string name="map_not_ready">Map is not ready yet</string>
+    <string name="searchName">검색명</string>
+    <!-- map activity에서 사용하는 variables -->
+
 </resources>

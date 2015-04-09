@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
+
 public class InputActivity extends ActionBarActivity implements View.OnClickListener {
 
     private EditText mtitleFront;
@@ -22,6 +24,7 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
     private EditText mcontents;
     private Button mTravelDateBtn;
     private DatePicker view;
+    private Button mLocationBtn;
 
     private int year;
     private int month;
@@ -49,6 +52,7 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         mtitleRear = (EditText) findViewById(R.id.title_rear);
         mcontents = (EditText) findViewById(R.id.contents);
         mTravelDateBtn = (Button) findViewById(R.id.date_Btn);
+        mLocationBtn = (Button) findViewById(R.id.location_Btn);
 
         GregorianCalendar calendar = new GregorianCalendar();
         year = calendar.get(Calendar.YEAR);
@@ -62,6 +66,15 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
                 DatePickerDialog date = new DatePickerDialog(InputActivity.this, dateSetListener,
                         year, month, day);
                 date.show();
+            }
+        });
+
+        mLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), MapAlbumActivity.class);
+                startActivity(intent);
             }
         });
 
