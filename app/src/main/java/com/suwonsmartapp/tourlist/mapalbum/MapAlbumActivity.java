@@ -37,12 +37,14 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 
 public class MapAlbumActivity extends FragmentActivity {
 
     private boolean flagFinish = true;          // APP을 종료할지 결정하는 플래그(true=다른 APP이 부른 경우)
     private boolean semaphoreLongTouch = false; // 롱터치가 발생했는지를 알리는 플래그
     private boolean semaphoreMapReady = false;  // Map이 준비되었는지 알리는 플래그
+    private boolean flagForSatellite = false;   // 초기치는 일반지도, true=위성지도
 
     public static LatLng DEFAULT_GP = new LatLng(37.566500, 126.978000);
 
@@ -58,6 +60,7 @@ public class MapAlbumActivity extends FragmentActivity {
     private ProgressDialog progressDialog;
     private String errorString = "";
     private ImageButton searchBt;       // 돋보기 탐색 버튼
+    private ImageButton mapBt;          // 지도,위성 변경 버튼
     private GoogleMapUtility httpUtil;   // mapapis를 통해 query를 하는 모듈
     private AlertDialog errorDialog;
     private Handler handler;            // 메시지 핸들러
@@ -79,11 +82,21 @@ public class MapAlbumActivity extends FragmentActivity {
         setContentView(R.layout.activity_main2);
         setTitle("Map Album");
 
-        if (mMap == null) {     // create a map if there is no map opened.
+        mapBt = (ImageButton) findViewById(R.id.mapview_mapBt);
+        mapBt.setVisibility(View.VISIBLE);
+        mapBt.setOnClickListener(onChangeMap);
+
+        if (mMap == null) {     // 현재 맵이 없으면 하나 만듬
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            if (mMap != null) { // if map was created successfully, setup it's type and my location.
-                mMap.setMapType(MAP_TYPE_NORMAL);
+            if (mMap != null) { // 맵이 잘 만들어 졌으면 맵 타입을 설정함.
+                if (flagForSatellite == true) {
+                    mapBt.setImageResource(R.drawable.maptopographic);
+                    mMap.setMapType(MAP_TYPE_SATELLITE);    // 위성지도가 TRUE이면 위성지도로 표시하고
+                } else {
+                    mapBt.setImageResource(R.drawable.mapsatellite);
+                    mMap.setMapType(MAP_TYPE_NORMAL);       // FALSE이면 일반지도로 표시함.
+                }
                 mMap.setMyLocationEnabled(true);
             }
         }
@@ -155,9 +168,25 @@ public class MapAlbumActivity extends FragmentActivity {
     protected void onStop() {
         handler.removeCallbacks(findSeoul);
         super.onStop();
-    }
+    };
 
-    ;
+    // 일반지도와 위성지도를 토글링하는 리스너
+    private View.OnClickListener onChangeMap = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if (flagForSatellite == true) {
+                flagForSatellite = false;           // 플래그를 일반지도로 설정함.
+                mapBt.setImageResource(R.drawable.mapsatellite);
+                mMap.setMapType(MAP_TYPE_NORMAL);   // 위성지도가 TRUE이면 일반지도로 토글링하고
+
+            } else {
+                flagForSatellite = true;                // 플래그를 위성지도로 설정함.
+                mapBt.setImageResource(R.drawable.maptopographic);
+                mMap.setMapType(MAP_TYPE_SATELLITE);    // FALSE이면 위성지도로 토글링함.
+            }
+        }
+    };
 
     // when the search button pressed, display a dialog and get the address input:
     private View.OnClickListener onNameSearch = new View.OnClickListener() {

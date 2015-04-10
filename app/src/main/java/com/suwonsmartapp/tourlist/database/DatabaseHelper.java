@@ -224,6 +224,11 @@ public class DatabaseHelper {
         return addResult;
     }
 
+    public long LISTMT_insertColumn(Info_LISTMT data) {
+        return this.LISTMT_insertColumn(data.title1, data.title2, data.title3, data.contents,
+                data.weather, data.companion, data.location, data.tdt, data.wdt, data.edt);
+    }
+
     // TT_LISTMT : Delete Data
     public int LISTMT_deleteColumn(int id){
         Result_Log("LISTMT_deleteColumn() : _id = " + id);
@@ -263,10 +268,20 @@ public class DatabaseHelper {
         ArrayList_LISTMT = new ArrayList<>();
         // pid로 PHOTODT 조인해서 사진 경로 추가할것
         if(sel_id == 0) {
-            sqlQuery = "select _id, title1, title2, title3, contents, weather, companion, location, pid, tdt, wdt, edt from " + TNAME_LISTMT;
+            sqlQuery = " select a._id, a.title1, a.title2, a.title3, a.contents, a.weather, " +
+                    "       a.companion, a.location, a.pid, a.tdt, a.wdt, a.edt, b.FullUrl as pFullUrl " +
+                    " from " + TNAME_LISTMT + " a " +
+                    " left join " + TNAME_PHOTODT + " b " +
+                    " ON a.pid = b._id";
         } else {
-            sqlQuery = "select _id, title1, title2, title3, contents, weather, companion, location, pid, tdt, wdt, edt from " + TNAME_LISTMT + " where _id=" + sel_id;
+            sqlQuery = " select a._id, a.title1, a.title2, a.title3, a.contents, a.weather, " +
+                    "       a.companion, a.location, a.pid, a.tdt, a.wdt, a.edt, b.FullUrl as pFullUrl " +
+                    " from " + TNAME_LISTMT + " a " +
+                    " left join " + TNAME_PHOTODT + " b " +
+                    " ON a.pid = b._id " +
+                    " where a._id = " + sel_id;
         }
+        Result_Log(sqlQuery);
         Cursor cur = db.rawQuery(sqlQuery, null);
 
         if (cur.getCount() == 0) {
@@ -286,14 +301,15 @@ public class DatabaseHelper {
                         cur.getInt(cur.getColumnIndex("pid")),
                         cur.getString(cur.getColumnIndex("tdt")),
                         cur.getString(cur.getColumnIndex("wdt")),
-                        cur.getString(cur.getColumnIndex("edt"))
+                        cur.getString(cur.getColumnIndex("edt")),
+                        cur.getString(cur.getColumnIndex("pFullUrl"))
                 );
                 ArrayList_LISTMT.add(infoClass_LISTMT);
-                Result_Log("LISTMT_selectColumn_All() while == " + infoClass_LISTMT);
                 cur.moveToNext();
             }
         }
         cur.close();
+        Result_Log("LISTMT_selectColumn_All() while == " + ArrayList_LISTMT);
         return ArrayList_LISTMT;
     }
     //==============================================================
@@ -368,10 +384,24 @@ public class DatabaseHelper {
     // Table Control TT_PHOTODT Method End =========================
     //==============================================================
 
+    // 흐름 확인용 로그 출력 메소드
+    private void Result_Log(String msg) {
+        Log.d("로그 : ", msg);
+    }
+    //=================================================
+    // SQLiteOpenHelper Class End =====================
+    //=================================================
 
-    //=================================================
+    // 시스템 시간 리턴 메소드
+    public String SystemTime_Now() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String time = dateFormat.format(new Date(System.currentTimeMillis()));
+        return time;
+    }
+
+    // =================================================
     // SQLiteOpenHelper Class Start ===================
-    //=================================================
+    // =================================================
     public class DB_Helper extends SQLiteOpenHelper {
 
         public DB_Helper(Context context) {
@@ -399,21 +429,6 @@ public class DatabaseHelper {
             onCreate(db);
             // 버젼 변경은 단일 DB만 사용할때 할것.
         }
-    }
-    //=================================================
-    // SQLiteOpenHelper Class End =====================
-    //=================================================
-
-    // 흐름 확인용 로그 출력 메소드
-    private void Result_Log(String msg) {
-        Log.d("로그 : ", msg);
-    }
-
-    // 시스템 시간 리턴 메소드
-    public String SystemTime_Now() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String time = dateFormat.format(new Date(System.currentTimeMillis()));
-        return time;
     }
 
 }

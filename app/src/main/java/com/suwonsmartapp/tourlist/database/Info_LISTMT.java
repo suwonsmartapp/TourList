@@ -17,13 +17,14 @@ public class Info_LISTMT {
     public String tdt;
     public String wdt;
     public String edt;
+    public String pFullUrl;
 
     public Info_LISTMT() {
     }
 
     public Info_LISTMT(int _id, String title1, String title2, String title3,
                        String contents, String weather, String companion, String location,
-                       int pid, String tdt, String wdt, String edt) {
+                       int pid, String tdt, String wdt, String edt, String pFullUrl) {
         this._id = _id;
         this.title1 = title1;
         this.title2 = title2;
@@ -36,6 +37,7 @@ public class Info_LISTMT {
         this.tdt = tdt;
         this.wdt = wdt;
         this.edt = edt;
+        this.pFullUrl = pFullUrl;
     }
 }
 
