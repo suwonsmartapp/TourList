@@ -224,10 +224,54 @@ public class DatabaseHelper {
         return addResult;
     }
 
-    public long LISTMT_insertColumn(Info_LISTMT data) {
-        return this.LISTMT_insertColumn(data.title1, data.title2, data.title3, data.contents,
-                data.weather, data.companion, data.location, data.tdt, data.wdt, data.edt);
+    /**
+     *
+     * @param title1
+     * @param title2
+     * @param title3
+     * @param contents
+     * @param weather
+     * @param companion
+     * @param location
+     * @param tdt
+     * @return
+     */
+    public long LISTMT_insertColumn(String title1, String title2, String title3, String contents, String weather, String companion, String location, String tdt){
+        Result_Log("LISTMT_insertColumn()" + title1 + title2 + title3);
+        ContentValues values = new ContentValues();
+        values.put("title1", title1);
+        values.put("title2", title2);
+        values.put("title3", title3);
+        values.put("contents", contents);
+        values.put("weather", weather);
+        values.put("companion", companion);
+        values.put("location", location);
+        values.put("tdt", tdt);
+        long addResult = db.insert(TNAME_LISTMT, null, values);
+        return addResult;
     }
+
+    /**
+     * for TEST
+     * @param title1
+     * @return
+     */
+    public long LISTMT_insertColumn(String title1){
+        Result_Log("LISTMT_insertColumn()" + title1);
+        ContentValues values = new ContentValues();
+        values.put("title1", title1);
+        long addResult = db.insert(TNAME_LISTMT, null, values);
+        return addResult;
+    }
+
+    public long LISTMT_insertColumn(Info_LISTMT data) {
+        return this.LISTMT_insertColumn(data.title1);
+    }
+
+//    public long LISTMT_insertColumn(Info_LISTMT data) {
+//        return this.LISTMT_insertColumn(data.title1, data.title2, data.title3, data.contents,
+//                data.weather, data.companion, data.location, data.tdt);
+//    }
 
     // TT_LISTMT : Delete Data
     public int LISTMT_deleteColumn(int id){

@@ -6,14 +6,28 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.suwonsmartapp.tourlist.adapter.PictureLayout;
+import com.suwonsmartapp.tourlist.image.GalleryActivity;
 
-public class ResultsActivity extends ActionBarActivity {
+public class ResultsActivity extends ActionBarActivity implements View.OnClickListener {
+
+
+    private static final int REQUEST_CODE_GALLERY = 1;
+    private static final String TAG = ResultsActivity.class.getSimpleName();
+
+
 
     private PictureLayout mPictureLayout;
+    private Button mBtnGetPicture;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +35,10 @@ public class ResultsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_results);
 
         mPictureLayout = (PictureLayout) findViewById(R.id.tableLayout_pictures);
+        mBtnGetPicture = (Button) findViewById(R.id.btn_picture_from_gallery);
+
+        mBtnGetPicture.setOnClickListener(this);
+
     }
 
 
@@ -70,5 +88,26 @@ public class ResultsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_picture_from_gallery:
+                Log.d(TAG, "사진선택");
+                Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK){
+            String[] btnName = data.getStringArrayExtra("pictureList");
+            Toast.makeText(getApplicationContext(), btnName.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

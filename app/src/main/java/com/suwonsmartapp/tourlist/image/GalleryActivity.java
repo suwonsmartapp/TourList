@@ -7,11 +7,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
 import com.suwonsmartapp.tourlist.R;
+import com.suwonsmartapp.tourlist.ResultsActivity;
 import com.suwonsmartapp.tourlist.image.adapter.GridAdapter;
 import com.suwonsmartapp.tourlist.image.bitmapUtil.BitmapScaleSetting;
 import com.suwonsmartapp.tourlist.image.util.GetMaxTextureSize;
@@ -34,6 +39,7 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
 
     // Data
     private List<Uri> mUriList;
+    private List<String> mPathList;
 
     // Adapter
     private GridAdapter mGridAdapter;
@@ -44,6 +50,7 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
 
         // Data
         mUriList = new ArrayList<>();
+        mPathList = new ArrayList<>();
     }
 
     @Override
@@ -103,11 +110,14 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
 
         if (requestCode == SELECT_FROM_GALLERY) {
             if (resultCode == Activity.RESULT_OK) {
-                //Log.d(TAG, "image data : " + data.toString());
-
                 Uri uri = data.getData(); // Received Data from the intent
-                //Log.d(TAG, "getPath() : " + uri.getPath());
-                //Log.d(TAG, "uri.getEncodedPath() : " + uri.getEncodedPath());
+
+
+                Log.d(TAG, "image data : " + data.toString());
+                Log.d(TAG, "getPath() : " + uri.getPath());
+                Log.d(TAG, "uri.getEncodedPath() : " + uri.getEncodedPath());
+
+                mPathList.add(uri.getPath());
 
                 mUriList.add(uri);
                 mBitmapScaleSetting.setTempImageFile();
@@ -115,6 +125,48 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
                 mGridAdapter.setmShowBtns(false);
                 mGridAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gallery, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.item_picture_load_complete: // 사진 선택 완료
+                Log.d(TAG, "사진 선택 완료");
+//                Intent intent = new Intent(getApplicationContext(), LoginExamActivity.class);
+//                if (v.getId() == mBtnCustom.getId()) {
+//                    intent.putExtra("btnName", mBtnCustom.getText());
+//                } else if (v.getId() == mBtnMoney.getId()){
+//                    intent.putExtra("btnName", mBtnMoney.getText());
+//                } else if (v.getId() == mBtnGoods.getId()){
+//                    intent.putExtra("btnName", mBtnGoods.getText());
+//                }
+//                setResult(RESULT_OK, intent); // 나를 startActivityForResult로 부른 놈한테만 데이터를 넘겨줌
+//                finish(); // 이거는 현재 activity를 detroy하고 이전 activity로 돌아가는 것
+//                // startActivity(intent); 를 하면 새로운 activity를 위에 쌓는것이기 때문에 데이터 전달이 안됨
+
+                Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+
+                String[] pathArr;
+                pathArr = (String[]) mPathList.toArray();
+                Log.d(TAG, pathArr.toString());
+
+                intent.putExtra("pictureList", pathArr);
+                setResult(RESULT_OK, intent);
+                finish();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

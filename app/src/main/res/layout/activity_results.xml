@@ -79,11 +79,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></LinearLayout>
 
-            <TextView
+
+            <Button
+                android:id="@+id/btn_picture_from_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Pictures" />
+                android:text="@string/picture_load" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text="Pictures" />-->
 
             <com.suwonsmartapp.tourlist.adapter.PictureLayout
                 android:id="@+id/tableLayout_pictures"

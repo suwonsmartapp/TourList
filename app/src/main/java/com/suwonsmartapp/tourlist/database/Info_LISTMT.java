@@ -1,3 +1,4 @@
+
 package com.suwonsmartapp.tourlist.database;
 
 /**
@@ -22,9 +23,26 @@ public class Info_LISTMT {
     public Info_LISTMT() {
     }
 
+    // for TEST
+    public Info_LISTMT(String title1) {
+        this.title1 = title1;
+    }
+
+    public Info_LISTMT(String title1, String title2, String title3,
+            String contents, String weather, String companion, String location, String tdt) {
+        this.title1 = title1;
+        this.title2 = title2;
+        this.title3 = title3;
+        this.contents = contents;
+        this.weather = weather;
+        this.companion = companion;
+        this.location = location;
+        this.tdt = tdt;
+    }
+
     public Info_LISTMT(int _id, String title1, String title2, String title3,
-                       String contents, String weather, String companion, String location,
-                       int pid, String tdt, String wdt, String edt, String pFullUrl) {
+            String contents, String weather, String companion, String location,
+            int pid, String tdt, String wdt, String edt, String pFullUrl) {
         this._id = _id;
         this.title1 = title1;
         this.title2 = title2;
@@ -40,5 +58,3 @@ public class Info_LISTMT {
         this.pFullUrl = pFullUrl;
     }
 }
-
-

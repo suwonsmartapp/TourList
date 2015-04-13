@@ -1,10 +1,6 @@
 
 package com.suwonsmartapp.tourlist;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +9,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.suwonsmartapp.tourlist.database.Info_LISTMT;
+import com.suwonsmartapp.tourlist.database.TourListFacade;
 import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class InputActivity extends ActionBarActivity implements View.OnClickListener {
 
+    private static final String TAG = InputActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_RESULT = 1;
     private EditText mtitleFront;
     private EditText mtitleMiddle;
     private EditText mtitleRear;
     private EditText mcontents;
+    private Spinner mSpinner;
+    private EditText mCompanion;
+
     private Button mTravelDateBtn;
     private DatePicker view;
     private Button mLocationBtn;
@@ -60,6 +67,9 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         mtitleMiddle = (EditText) findViewById(R.id.title_middle);
         mtitleRear = (EditText) findViewById(R.id.title_rear);
         mcontents = (EditText) findViewById(R.id.contents);
+        mSpinner = (Spinner) findViewById(R.id.spinner);
+        mCompanion = (EditText) findViewById(R.id.companion);
+
         mTravelDateBtn = (Button) findViewById(R.id.date_Btn);
         mLocationBtn = (Button) findViewById(R.id.location_Btn);
         mid_location_addr = (TextView) findViewById(R.id.id_location_addr);
@@ -84,7 +94,7 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), MapAlbumActivity.class);
-//                startActivity(intent);
+                // startActivity(intent);
 
                 intent.putExtra("key", "MapAlbum");
                 intent.putExtra("code", REQUEST_CODE_A);
@@ -94,11 +104,33 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         });
 
         findViewById(R.id.submit_Btn).setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
+
+        switch (v.getId()) {
+            case R.id.submit_Btn:
+                TourListFacade tourListFacade = new TourListFacade(getApplicationContext());
+
+//                Info_LISTMT info_listmt = new Info_LISTMT(
+//                        mtitleFront.getText().toString()
+//                        , mtitleMiddle.getText().toString()
+//                        , mtitleRear.getText().toString()
+//                        , mcontents.getText().toString()
+//                        , mSpinner.getSelectedItem().toString()
+//                        , mCompanion.getText().toString()
+//                        , "location"
+//                        , mTravelDateBtn.getText().toString());
+
+                Info_LISTMT info_listmt = new Info_LISTMT(mtitleFront.getText().toString());
+                long savedId = tourListFacade.save(info_listmt);
+
+                startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
+                break;
+        }
+
     }
 
     @Override
