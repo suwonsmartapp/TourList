@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -156,6 +157,8 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
                 data.tdt = mTravelDateBtn.getText().toString();
 
                 long rowId = facade.save(data);
+                Log.d(TAG, String.valueOf(rowId));
+
                 if (rowId != -1) {
                     Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
 
@@ -165,8 +168,6 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
                 } else {
                     Toast.makeText(getApplicationContext(), "저장 실패", Toast.LENGTH_SHORT).show();
                 }
-
-                startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
                 break;
         }
     }

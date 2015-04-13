@@ -14,13 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.suwonsmartapp.tourlist.R;
 import com.suwonsmartapp.tourlist.ResultsActivity;
+import com.suwonsmartapp.tourlist.database.Info_PHOTODT;
+import com.suwonsmartapp.tourlist.database.TourListFacade;
 import com.suwonsmartapp.tourlist.image.adapter.GridAdapter;
 import com.suwonsmartapp.tourlist.image.bitmapUtil.BitmapScaleSetting;
 import com.suwonsmartapp.tourlist.image.util.GetMaxTextureSize;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +42,15 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
     private BitmapScaleSetting mBitmapScaleSetting;
 
     // Data
-    private List<Uri> mUriList;
+    private ArrayList<Uri> mUriList;
     private List<String> mPathList;
 
     // Adapter
     private GridAdapter mGridAdapter;
+
+
+    private long mSavedTourId;
+
 
     private void init() {
         mBtnGetImg = (Button) findViewById(R.id.btn_get_img);
@@ -90,6 +98,17 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         // click listener 바인딩
         mBtnGetImg.setOnClickListener(this);
 
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            mSavedTourId = Long.valueOf(getIntent().getLongExtra("id", -1));
+            Log.d("GalleryActivity TAG", String.valueOf(mSavedTourId));
+            Toast.makeText(getApplicationContext(), "저장된 아이디 : " + String.valueOf(mSavedTourId), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
     } // onCreate
 
     @Override
@@ -111,7 +130,6 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         if (requestCode == SELECT_FROM_GALLERY) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = data.getData(); // Received Data from the intent
-
 
                 Log.d(TAG, "image data : " + data.toString());
                 Log.d(TAG, "getPath() : " + uri.getPath());
@@ -142,25 +160,16 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         switch (item.getItemId()) {
             case R.id.item_picture_load_complete: // 사진 선택 완료
                 Log.d(TAG, "사진 선택 완료");
-//                Intent intent = new Intent(getApplicationContext(), LoginExamActivity.class);
-//                if (v.getId() == mBtnCustom.getId()) {
-//                    intent.putExtra("btnName", mBtnCustom.getText());
-//                } else if (v.getId() == mBtnMoney.getId()){
-//                    intent.putExtra("btnName", mBtnMoney.getText());
-//                } else if (v.getId() == mBtnGoods.getId()){
-//                    intent.putExtra("btnName", mBtnGoods.getText());
-//                }
-//                setResult(RESULT_OK, intent); // 나를 startActivityForResult로 부른 놈한테만 데이터를 넘겨줌
-//                finish(); // 이거는 현재 activity를 detroy하고 이전 activity로 돌아가는 것
-//                // startActivity(intent); 를 하면 새로운 activity를 위에 쌓는것이기 때문에 데이터 전달이 안됨
+
+                /*
+                    사진 DB에 저장
+                 */
+                for (int i = 0; i < mPathList.size(); i++) {
+                    savePictureToDB(mPathList.get(i));
+                }
 
                 Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
-
-                String[] pathArr;
-                pathArr = (String[]) mPathList.toArray();
-                Log.d(TAG, pathArr.toString());
-
-                intent.putExtra("pictureList", pathArr);
+                intent.putExtra("pictureIdList", mUriList);
                 setResult(RESULT_OK, intent);
                 finish();
 
@@ -170,5 +179,18 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         }
     }
 
+    private long savePictureToDB(String path) {
+        TourListFacade tourListFacade = new TourListFacade(getApplicationContext());
+        int mId = new BigDecimal(mSavedTourId).intValueExact();
+        Info_PHOTODT info_photodt = new Info_PHOTODT(mId, path);
+        long savedId = tourListFacade.savePicture(info_photodt);
+        return savedId;
+    }
+
+    private Info_PHOTODT makeInfoPhoto(String path) {
+        int mId = new BigDecimal(mSavedTourId).intValueExact();
+        Info_PHOTODT info_photodt = new Info_PHOTODT(mId, path);
+        return info_photodt;
+    }
 
 }

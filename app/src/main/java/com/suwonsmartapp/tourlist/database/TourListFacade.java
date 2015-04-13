@@ -26,6 +26,8 @@ package com.suwonsmartapp.tourlist.database;
 
 import android.content.Context;
 
+import java.util.List;
+
 /**
  * Created by junsuk on 15. 4. 10..
  */
@@ -45,6 +47,21 @@ public class TourListFacade {
         long insertedId = mDatabaseHelper.LISTMT_insertColumn(data);
         mDatabaseHelper.close();
         return insertedId;
+    }
+
+    public long savePicture(Info_PHOTODT data) {
+        mDatabaseHelper.open();
+        long savedId = mDatabaseHelper.PHOTODT_insertColumn(data);
+        mDatabaseHelper.close();
+        return savedId;
+    }
+
+    public void savePicture(List<Info_PHOTODT> infoPhotoList) {
+        mDatabaseHelper.open();
+        for (int i = 0; i < infoPhotoList.size(); i++) {
+            mDatabaseHelper.PHOTODT_insertColumn(infoPhotoList.get(i));
+        }
+        mDatabaseHelper.close();
     }
 
 }

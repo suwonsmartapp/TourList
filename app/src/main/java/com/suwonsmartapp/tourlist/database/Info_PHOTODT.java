@@ -7,16 +7,21 @@ public class Info_PHOTODT {
 
     public int _id;
     public int mid;
-    public String FullUrl;
+    public String fullUrl;
     public String wdt;
 
     public Info_PHOTODT() {
     }
 
-    public Info_PHOTODT(int _id, int mid, String FullUrl, String wdt){
+    public Info_PHOTODT(int mid, String fullUrl){
+        this.mid = mid;
+        this.fullUrl = fullUrl;
+    }
+
+    public Info_PHOTODT(int _id, int mid, String fullUrl, String wdt){
         this._id = _id;
         this.mid = mid;
-        this.FullUrl = FullUrl;
+        this.fullUrl = fullUrl;
         this.wdt = wdt;
     }
 }

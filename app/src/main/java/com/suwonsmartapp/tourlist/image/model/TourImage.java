@@ -3,10 +3,12 @@ package com.suwonsmartapp.tourlist.image.model;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by sol on 2015-04-07.
  */
-public class TourImage {
+public class TourImage implements Serializable {
     private Bitmap bitmap;
     private String path;
 

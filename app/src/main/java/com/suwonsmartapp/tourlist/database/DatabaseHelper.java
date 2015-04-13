@@ -375,6 +375,19 @@ public class DatabaseHelper {
         return addResult;
     }
 
+    public long PHOTODT_insertColumn(int mid, String fullurl){
+        Result_Log("PHOTODT_insertColumn()" + mid + fullurl);
+        ContentValues values = new ContentValues();
+        values.put("mid", mid);
+        values.put("FullUrl", fullurl);
+        long addResult = db.insert(TNAME_PHOTODT, null, values);
+        return addResult;
+    }
+
+    public long PHOTODT_insertColumn(Info_PHOTODT data){
+        return this.PHOTODT_insertColumn(data.mid, data.fullUrl);
+    }
+
     // TT_PHOTODT : Delete Data
     public int PHOTODT_deleteColumn(int id){
         Result_Log("PHOTODT_deleteColumn() : _id = " + id);
