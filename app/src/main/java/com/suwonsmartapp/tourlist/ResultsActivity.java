@@ -1,6 +1,10 @@
 
 package com.suwonsmartapp.tourlist;
 
+import com.suwonsmartapp.tourlist.image.GalleryActivity;
+import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
+import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,11 +22,12 @@ import com.suwonsmartapp.tourlist.database.Info_LISTMT;
 import com.suwonsmartapp.tourlist.database.TourListFacade;
 import com.suwonsmartapp.tourlist.image.GalleryActivity;
 import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
+import java.io.Serializable;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-public class ResultsActivity extends ActionBarActivity implements View.OnClickListener {
+public class ResultsActivity extends ActionBarActivity implements View.OnClickListener,
+        PictureLayout.OnClickListener {
 
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final String TAG = ResultsActivity.class.getSimpleName();
@@ -55,7 +60,7 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
         mBtnGetPicture = (Button) findViewById(R.id.btn_picture_from_gallery);
         mBtnGetPicture.setOnClickListener(this);
 
-        mPictureLayout.setOnClickListener(this);
+        mPictureLayout.setOnPictureClickListener(this);
 
         Intent intent = getIntent();
 
@@ -158,5 +163,13 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
 
 
         }
+    }
+
+    @Override
+    public void onClick(Serializable data) {
+        Intent intent = new Intent(getApplicationContext(), ImageViewer.class);
+        intent.putExtra("imageList", data);
+
+        startActivity(intent);
     }
 }
