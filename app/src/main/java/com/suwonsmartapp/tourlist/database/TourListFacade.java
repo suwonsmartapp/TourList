@@ -40,13 +40,14 @@ public class TourListFacade {
         mDatabaseHelper = new DatabaseHelper(mContext);
     }
 
-    public boolean save(Info_LISTMT data) {
+    public long save(Info_LISTMT data) {
         mDatabaseHelper.open();
 
-        mDatabaseHelper.LISTMT_insertColumn(data);
+        long insertedId = mDatabaseHelper.LISTMT_insertColumn(data);
 
         mDatabaseHelper.close();
-        return false;
+
+        return insertedId;
     }
 
 }

@@ -1,9 +1,9 @@
 
 package com.suwonsmartapp.tourlist;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.suwonsmartapp.tourlist.database.Info_LISTMT;
+import com.suwonsmartapp.tourlist.database.TourListFacade;
+import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,8 +17,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class InputActivity extends ActionBarActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -32,6 +35,7 @@ public class InputActivity extends ActionBarActivity
     private EditText mtitleMiddle;
     private EditText mtitleRear;
     private EditText mcontents;
+    private EditText mCompanion;
     private TextView textView1;
     private Spinner spinner;
     private Button mTravelDateBtn;
@@ -68,6 +72,7 @@ public class InputActivity extends ActionBarActivity
         mcontents = (EditText) findViewById(R.id.contents);
         textView1 = (TextView) findViewById(R.id.weather_spinner);
         spinner = (Spinner) findViewById(R.id.spinner);
+        mCompanion = (EditText) findViewById(R.id.companion);
 
         spinner.setOnItemSelectedListener(this);
 
@@ -123,7 +128,29 @@ public class InputActivity extends ActionBarActivity
 
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
+        TourListFacade facade = new TourListFacade(getApplicationContext());
+
+        Info_LISTMT data = new Info_LISTMT();
+        data.title1 = mtitleFront.getText().toString();
+        data.title2 = mtitleMiddle.getText().toString();
+        data.title3 = mtitleRear.getText().toString();
+        data.contents = mcontents.getText().toString();
+        data.weather = spinner.getSelectedItem().toString();
+        data.companion = mCompanion.getText().toString();
+        data.location = mid_location_addr.getText().toString();
+        data.tdt = mTravelDateBtn.getText().toString();
+
+        long rowId = facade.save(data);
+        if (rowId != -1) {
+            Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+            intent.putExtra("id", rowId);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "저장 실패", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
