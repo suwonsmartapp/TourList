@@ -42,10 +42,9 @@ public class TourListFacade {
 
     public long save(Info_LISTMT data) {
         mDatabaseHelper.open();
-
-        long savedId = mDatabaseHelper.LISTMT_insertColumn(data);
+        long insertedId = mDatabaseHelper.LISTMT_insertColumn(data);
         mDatabaseHelper.close();
-        return savedId;
+        return insertedId;
     }
 
 }

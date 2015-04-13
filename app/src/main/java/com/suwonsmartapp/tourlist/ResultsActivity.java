@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.suwonsmartapp.tourlist.adapter.PictureLayout;
 import com.suwonsmartapp.tourlist.image.GalleryActivity;
+import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
 
 public class ResultsActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -22,12 +22,8 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final String TAG = ResultsActivity.class.getSimpleName();
 
-
-
     private PictureLayout mPictureLayout;
     private Button mBtnGetPicture;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +32,9 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
 
         mPictureLayout = (PictureLayout) findViewById(R.id.tableLayout_pictures);
         mBtnGetPicture = (Button) findViewById(R.id.btn_picture_from_gallery);
-
         mBtnGetPicture.setOnClickListener(this);
 
+        mPictureLayout.setOnClickListener(this);
     }
 
 
@@ -92,6 +88,12 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+
+//        Intent intent = new Intent(getApplicationContext(), ImageViewer.class);
+//        intent.putExtra("imageList", data);
+//
+//        startActivity(intent);
+
         switch (v.getId()) {
             case R.id.btn_picture_from_gallery:
                 Log.d(TAG, "사진선택");
@@ -105,7 +107,7 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK) {
             String[] btnName = data.getStringArrayExtra("pictureList");
             Toast.makeText(getApplicationContext(), btnName.toString(), Toast.LENGTH_SHORT).show();
         }

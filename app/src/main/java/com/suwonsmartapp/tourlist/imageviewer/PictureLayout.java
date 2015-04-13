@@ -22,26 +22,30 @@
  * SOFTWARE.
  */
 
-package com.suwonsmartapp.tourlist.adapter;
+package com.suwonsmartapp.tourlist.imageviewer;
 
 import com.suwonsmartapp.tourlist.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by junsuk on 15. 4. 7.. 사진을 테이블 형태로 출력 해 주는 레이아웃
  */
-public class PictureLayout extends TableLayout {
+public class PictureLayout extends TableLayout implements View.OnClickListener {
 
     private Context mContext;
     private List<Integer> mList;
     private int mNumColums = 1;
+
+    private OnClickListener mOnClickListener;
 
     public PictureLayout(Context context) {
         this(context, null);
@@ -54,19 +58,28 @@ public class PictureLayout extends TableLayout {
         mList = new ArrayList<>();
 
         // 컬럼 수를 2로 설정
-        setNumColumns(2);
+        setNumColumns(6);
         setStretchAllColumns(true);
 
-        // TODO 실제 데이타로 교체
-        init();
+        setOnClickListener(this);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        mOnClickListener = listener;
     }
 
     @Override
     protected void onFinishInflate() {
-        setLayout();
+        init(); // TODO 실제 데이타로 교체
+        setLayout(mList);
     }
 
-    private void setLayout() {
+    private void setLayout(List<Integer> list) {
+        mList = list;
+
+        removeAllViewsInLayout();
+        requestLayout();
+
         TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0, 1.0f);
         TableRow tableRow = new TableRow(mContext);
         for (int i = 0; i < mList.size(); i++) {
@@ -94,7 +107,7 @@ public class PictureLayout extends TableLayout {
 
     /**
      * 컬럼 수를 지정한다
-     * 
+     *
      * @param numColumns 컬럼 수
      */
     public void setNumColumns(int numColumns) {
@@ -104,4 +117,14 @@ public class PictureLayout extends TableLayout {
         mNumColums = numColumns;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mOnClickListener != null) {
+            mOnClickListener.onClick((Serializable)mList);
+        }
+    }
+
+    public interface OnClickListener {
+        void onClick(Serializable data);
+    }
 }

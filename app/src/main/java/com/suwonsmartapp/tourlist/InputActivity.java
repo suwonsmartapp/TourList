@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.suwonsmartapp.tourlist.database.Info_LISTMT;
 import com.suwonsmartapp.tourlist.database.TourListFacade;
@@ -20,28 +23,33 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class InputActivity extends ActionBarActivity implements View.OnClickListener {
+public class InputActivity extends ActionBarActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener  {
 
     private static final String TAG = InputActivity.class.getSimpleName();
     private static final int REQUEST_CODE_RESULT = 1;
+
+    private static final int REQUEST_CODE_A = 0x5a5a;
+    private static final int REQUEST_CODE_B = 0xa5a5;
+    String[] items = {
+            "sunny", "cloudy", "rainy", "snowy", "windy", "hot", "warm", "cool", "freezing"
+    };
+
     private EditText mtitleFront;
     private EditText mtitleMiddle;
     private EditText mtitleRear;
     private EditText mcontents;
+
     private Spinner mSpinner;
     private EditText mCompanion;
-
+    private TextView textView1;
+    private Spinner spinner;
     private Button mTravelDateBtn;
     private DatePicker view;
     private Button mLocationBtn;
     private TextView mid_location_addr;
-
     private int year;
     private int month;
     private int day;
-
-    private static final int REQUEST_CODE_A = 0x5a5a;
-    private static final int REQUEST_CODE_B = 0xa5a5;
     private String myAddress = "";
     private String myAddressError = "주소가 검색되지 않았습니다.";
 
@@ -67,8 +75,23 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         mtitleMiddle = (EditText) findViewById(R.id.title_middle);
         mtitleRear = (EditText) findViewById(R.id.title_rear);
         mcontents = (EditText) findViewById(R.id.contents);
+
         mSpinner = (Spinner) findViewById(R.id.spinner);
         mCompanion = (EditText) findViewById(R.id.companion);
+
+
+        textView1 = (TextView) findViewById(R.id.weather_spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        mCompanion = (EditText) findViewById(R.id.companion);
+
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getApplicationContext(), android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
 
         mTravelDateBtn = (Button) findViewById(R.id.date_Btn);
         mLocationBtn = (Button) findViewById(R.id.location_Btn);
@@ -99,7 +122,6 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
                 intent.putExtra("key", "MapAlbum");
                 intent.putExtra("code", REQUEST_CODE_A);
                 startActivityForResult(intent, REQUEST_CODE_A);
-
             }
         });
 
@@ -108,29 +130,45 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
     }
 
     @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        textView1.setText(items[position]);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        textView1.setText("");
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.submit_Btn:
-                TourListFacade tourListFacade = new TourListFacade(getApplicationContext());
+                TourListFacade facade = new TourListFacade(getApplicationContext());
 
-//                Info_LISTMT info_listmt = new Info_LISTMT(
-//                        mtitleFront.getText().toString()
-//                        , mtitleMiddle.getText().toString()
-//                        , mtitleRear.getText().toString()
-//                        , mcontents.getText().toString()
-//                        , mSpinner.getSelectedItem().toString()
-//                        , mCompanion.getText().toString()
-//                        , "location"
-//                        , mTravelDateBtn.getText().toString());
+                Info_LISTMT data = new Info_LISTMT();
+                data.title1 = mtitleFront.getText().toString();
+                data.title2 = mtitleMiddle.getText().toString();
+                data.title3 = mtitleRear.getText().toString();
+                data.contents = mcontents.getText().toString();
+                data.weather = spinner.getSelectedItem().toString();
+                data.companion = mCompanion.getText().toString();
+                data.location = mid_location_addr.getText().toString();
+                data.tdt = mTravelDateBtn.getText().toString();
 
-                Info_LISTMT info_listmt = new Info_LISTMT(mtitleFront.getText().toString());
-                long savedId = tourListFacade.save(info_listmt);
+                long rowId = facade.save(data);
+                if (rowId != -1) {
+                    Toast.makeText(getApplicationContext(), "저장 성공", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+                    intent.putExtra("id", rowId);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "저장 실패", Toast.LENGTH_SHORT).show();
+                }
 
                 startActivity(new Intent(getApplicationContext(), ResultsActivity.class));
                 break;
         }
-
     }
 
     @Override
@@ -144,5 +182,4 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
             mid_location_addr.setText(myAddressError);
         }
     }
-
 }
