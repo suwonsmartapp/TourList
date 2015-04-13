@@ -42,6 +42,19 @@ public class TourListFacade {
         mDatabaseHelper = new DatabaseHelper(mContext);
     }
 
+    public Info_LISTMT get(int id) {
+        mDatabaseHelper.open();
+        List<Info_LISTMT> infoListmtList = mDatabaseHelper.LISTMT_selectColumn_All(id);
+        Info_LISTMT info_listmt = null;
+        if (infoListmtList != null && infoListmtList.size() > 0) {
+            info_listmt = infoListmtList.get(0);
+        }
+        mDatabaseHelper.close();
+        return info_listmt;
+    }
+
+
+
     public long save(Info_LISTMT data) {
         mDatabaseHelper.open();
         long insertedId = mDatabaseHelper.LISTMT_insertColumn(data);
