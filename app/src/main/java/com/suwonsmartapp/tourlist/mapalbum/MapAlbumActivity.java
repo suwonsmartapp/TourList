@@ -250,33 +250,35 @@ public class MapAlbumActivity extends FragmentActivity {
     }
 
     private void handleMessage(Message msg) {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
 
-        String result = msg.getData().getString(GoogleMapUtility.RESULT);
-        ArrayList<String> searchList = new ArrayList<String>();
+            String result = msg.getData().getString(GoogleMapUtility.RESULT);
+            ArrayList<String> searchList = new ArrayList<String>();
 
-        if (result.equals(GoogleMapUtility.SUCCESS_RESULT)) {
-            searchList = msg.getData().getStringArrayList("searchList");
+            if (result.equals(GoogleMapUtility.SUCCESS_RESULT)) {
+                searchList = msg.getData().getStringArrayList("searchList");
 
-        } else if (result.equals(GoogleMapUtility.TIMEOUT_RESULT)) {
-            errorString = "Timeout Error.";
-            errorDialog.setMessage(errorString);
-            errorDialog.show();
-            return;
-        } else if (result.equals(GoogleMapUtility.FAIL_MAP_RESULT)) {
-            errorString = "No Map Found.";
-            errorDialog.setMessage(errorString);
-            errorDialog.show();
-            return;
-        } else {
-            errorString = httpUtil.stringData;
-            errorDialog.setMessage(errorString);
-            errorDialog.show();
-            return;
+            } else if (result.equals(GoogleMapUtility.TIMEOUT_RESULT)) {
+                errorString = "Timeout Error.";
+                errorDialog.setMessage(errorString);
+                errorDialog.show();
+                return;
+            } else if (result.equals(GoogleMapUtility.FAIL_MAP_RESULT)) {
+                errorString = "No Map Found.";
+                errorDialog.setMessage(errorString);
+                errorDialog.show();
+                return;
+            } else {
+                errorString = httpUtil.stringData;
+                errorDialog.setMessage(errorString);
+                errorDialog.show();
+                return;
+            }
+
+            String[] searches = searchList.toArray(new String[searchList.size()]);
+            adjustToPoints(searches);
         }
-
-        String[] searches = searchList.toArray(new String[searchList.size()]);
-        adjustToPoints(searches);
 
         if (semaphoreLongTouch == true) {
             String resultAddress = httpUtil.getAddress();
