@@ -1,10 +1,12 @@
 
 package com.suwonsmartapp.tourlist.database;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015-04-09.
  */
-public class Info_LISTMT {
+public class Info_LISTMT implements Serializable {
 
     public int _id;
     public String title1;

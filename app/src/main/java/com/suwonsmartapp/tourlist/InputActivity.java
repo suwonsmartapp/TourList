@@ -63,7 +63,6 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
                     tmpCalendar.set(year, monthOfYear, dayOfMonth);
 
                     mTravelDateBtn.setText(sf.format(tmpCalendar.getTime()));
-
                 }
             };
 
@@ -164,7 +163,10 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
 
                     Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
                     intent.putExtra("id", rowId);
+                    intent.putExtra("data", data);
                     startActivity(intent);
+
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "저장 실패", Toast.LENGTH_SHORT).show();
                 }

@@ -26,14 +26,12 @@ package com.suwonsmartapp.tourlist.imageviewer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,7 @@ import java.util.List;
 public class PictureLayout extends TableLayout implements View.OnClickListener {
 
     private Context mContext;
-    private List<Uri> mList;
+    private List<String> mList;
     private int mNumColums = 1;
 
     private OnClickListener mOnClickListener;
@@ -59,7 +57,7 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
         mContext = context;
         mList = new ArrayList<>();
 
-        // 컬럼 수를 2로 설정
+        // 컬럼 수를 6로 설정
         setNumColumns(6);
         setStretchAllColumns(true);
 
@@ -72,11 +70,10 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
 
     @Override
     protected void onFinishInflate() {
-        // init(); // TODO 실제 데이타로 교체
         setLayout(mList);
     }
 
-    private void setLayout(List<Uri> list) {
+    public void setLayout(List<String> list) {
         mList = list;
 
         removeAllViewsInLayout();
@@ -88,30 +85,18 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
             if (i % mNumColums == 0) {
                 tableRow = new TableRow(mContext);
             }
-            try {
-                SquareImageView squareImageView = new SquareImageView(mContext);
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(),
-                        mList.get(i));
-                squareImageView.setImageBitmap(bitmap);
-                tableRow.addView(squareImageView, params);
 
-                if (i % mNumColums == mNumColums - 1 || i == mList.size() - 1) {
-                    addView(tableRow);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            SquareImageView squareImageView = new SquareImageView(mContext);
+            Bitmap bitmap = BitmapFactory.decodeFile(mList.get(i));
+            squareImageView.setImageBitmap(bitmap);
+            tableRow.addView(squareImageView, params);
+
+            if (i % mNumColums == mNumColums - 1 || i == mList.size() - 1) {
+                addView(tableRow);
             }
         }
 
     }
-
-    // private void init() {
-    // for (int i = 0; i < 5; i++) {
-    // mList.add(R.drawable.car);
-    // mList.add(R.drawable.girl);
-    // mList.add(R.drawable.gold_apple);
-    // }
-    // }
 
     /**
      * 컬럼 수를 지정한다
@@ -128,7 +113,7 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (mOnClickListener != null) {
-            mOnClickListener.onClick((Serializable)mList);
+            mOnClickListener.onClick((Serializable) mList);
         }
     }
 

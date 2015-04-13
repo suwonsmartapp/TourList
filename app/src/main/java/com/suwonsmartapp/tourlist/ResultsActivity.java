@@ -1,6 +1,12 @@
 
 package com.suwonsmartapp.tourlist;
 
+import com.suwonsmartapp.tourlist.database.Info_LISTMT;
+import com.suwonsmartapp.tourlist.database.TourListFacade;
+import com.suwonsmartapp.tourlist.image.GalleryActivity;
+import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
+import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,12 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.suwonsmartapp.tourlist.database.Info_LISTMT;
-import com.suwonsmartapp.tourlist.database.TourListFacade;
-import com.suwonsmartapp.tourlist.image.GalleryActivity;
-import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
-import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,8 +28,7 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
 
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final String TAG = ResultsActivity.class.getSimpleName();
-
-
+    long id;
     private PictureLayout mPictureLayout;
     private Button mBtnGetPicture;
     private TextView mTitleResult;
@@ -37,10 +36,14 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
     private TextView mWeather;
     private TextView mCompanion;
 
-
     private long mId;
     private int mIntMId;
 
+    private TextView mTitleTextView;
+    private TextView mContentsTextView;
+    private TextView mWeatherTextView;
+    private TextView mCompanionTextView;
+    private TextView mMapTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,12 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
 
         mPictureLayout = (PictureLayout) findViewById(R.id.tableLayout_pictures);
         mBtnGetPicture = (Button) findViewById(R.id.btn_picture_from_gallery);
+        mTitleTextView = (TextView) findViewById(R.id.title_result);
+        mContentsTextView = (TextView) findViewById(R.id.contents_result);
+        mWeatherTextView = (TextView) findViewById(R.id.weather_result);
+        mCompanionTextView = (TextView) findViewById(R.id.companion_result);
+        mMapTextView = (TextView) findViewById(R.id.map_result);
+
         mBtnGetPicture.setOnClickListener(this);
 
         mPictureLayout.setOnPictureClickListener(this);
@@ -66,6 +75,20 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
             Log.d("ResultsActivity TAG", String.valueOf(mId));
             mIntMId = new BigDecimal(mId).intValueExact();
 
+            id = Long.valueOf(getIntent().getLongExtra("id", -1));
+
+            // 이전 화면에서 받은 데이터 표시
+            Serializable serializableExtra = getIntent().getSerializableExtra("data");
+            if (serializableExtra instanceof Info_LISTMT) {
+                Info_LISTMT data = (Info_LISTMT) serializableExtra;
+                mTitleTextView.setText(data.title1 + " " + data.title2 + " " + data.title3);
+                mContentsTextView.setText(data.contents);
+                mWeatherTextView.setText(data.weather);
+                mCompanionTextView.setText(data.companion);
+                mMapTextView.setText(data.location);
+            }
+
+            Log.d("ResultsActivity TAG", String.valueOf(id));
             // Toast.makeText(getApplicationContext(), "저장된 아이디 : " + String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
@@ -157,8 +180,7 @@ public class ResultsActivity extends ActionBarActivity implements View.OnClickLi
             List<String> pathList = (List<String>) data.getSerializableExtra("picturePathList");
             Toast.makeText(getApplicationContext(), pathList.toString(), Toast.LENGTH_SHORT).show();
 
-
-
+            mPictureLayout.setLayout(pathList);
         }
     }
 
