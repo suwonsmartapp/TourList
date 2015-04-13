@@ -10,31 +10,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.suwonsmartapp.tourlist.mapalbum.MapAlbumActivity;
 
-public class InputActivity extends ActionBarActivity implements View.OnClickListener {
+public class InputActivity extends ActionBarActivity
+        implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    private static final int REQUEST_CODE_A = 0x5a5a;
+    private static final int REQUEST_CODE_B = 0xa5a5;
+    String[] items = {
+            "sunny", "cloudy", "rainy", "snowy", "windy", "hot", "warm", "cool", "freezing"
+    };
     private EditText mtitleFront;
     private EditText mtitleMiddle;
     private EditText mtitleRear;
     private EditText mcontents;
+    private TextView textView1;
+    private Spinner spinner;
     private Button mTravelDateBtn;
     private DatePicker view;
     private Button mLocationBtn;
     private TextView mid_location_addr;
-
     private int year;
     private int month;
     private int day;
-
-    private static final int REQUEST_CODE_A = 0x5a5a;
-    private static final int REQUEST_CODE_B = 0xa5a5;
     private String myAddress = "";
     private String myAddressError = "주소가 검색되지 않았습니다.";
 
@@ -60,6 +66,18 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
         mtitleMiddle = (EditText) findViewById(R.id.title_middle);
         mtitleRear = (EditText) findViewById(R.id.title_rear);
         mcontents = (EditText) findViewById(R.id.contents);
+        textView1 = (TextView) findViewById(R.id.weather_spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getApplicationContext(), android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
         mTravelDateBtn = (Button) findViewById(R.id.date_Btn);
         mLocationBtn = (Button) findViewById(R.id.location_Btn);
         mid_location_addr = (TextView) findViewById(R.id.id_location_addr);
@@ -84,16 +102,23 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), MapAlbumActivity.class);
-//                startActivity(intent);
-
+                // startActivity(intent);
                 intent.putExtra("key", "MapAlbum");
                 intent.putExtra("code", REQUEST_CODE_A);
                 startActivityForResult(intent, REQUEST_CODE_A);
-
             }
         });
 
         findViewById(R.id.submit_Btn).setOnClickListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        textView1.setText(items[position]);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        textView1.setText("");
     }
 
     @Override
@@ -112,5 +137,4 @@ public class InputActivity extends ActionBarActivity implements View.OnClickList
             mid_location_addr.setText(myAddressError);
         }
     }
-
 }
