@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -126,7 +127,7 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = data.getData(); // Received Data from the intent
 
-                mPathList.add(uri.getPath());
+                mPathList.add(getAbsolutePathFromUri(uri));
 
                 Log.d(TAG, "image data : " + data.toString());
                 Log.d(TAG, "getPath() : " + uri.getPath());
@@ -210,6 +211,17 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private String getAbsolutePathFromUri(Uri uri) {
+        Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        Log.d("path", path);
+
+        return path;
+    }
+
 
     /*
      * 메인이미지 저장

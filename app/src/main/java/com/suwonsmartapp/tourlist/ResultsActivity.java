@@ -1,10 +1,6 @@
 
 package com.suwonsmartapp.tourlist;
 
-import com.suwonsmartapp.tourlist.image.GalleryActivity;
-import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
-import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,9 +17,10 @@ import android.widget.Toast;
 import com.suwonsmartapp.tourlist.database.Info_LISTMT;
 import com.suwonsmartapp.tourlist.database.TourListFacade;
 import com.suwonsmartapp.tourlist.image.GalleryActivity;
+import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
 import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
-import java.io.Serializable;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 public class ResultsActivity extends ActionBarActivity implements View.OnClickListener,
