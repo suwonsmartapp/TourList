@@ -212,6 +212,9 @@ public class GridAdapter extends BaseAdapter {
         this.mShowBtns = mShowBtns;
     }
 
+    public int getmMainImgPosition() {
+        return mMainImgPosition;
+    }
 
     // 메모리에 정해진 갯수의 이미지만 가지고 있게 해야된다(정한갯수만큼) - 캐시, 캐시로딩?
     // 리스트뷰에 이미지 로드하는 예제를 찾다보면 캐시를 구현해 놓은게 있다

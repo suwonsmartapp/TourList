@@ -50,7 +50,7 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
 
 
     private long mSavedTourId;
-
+    private int mId;
 
     private void init() {
         mBtnGetImg = (Button) findViewById(R.id.btn_get_img);
@@ -102,6 +102,8 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
 
         if (intent != null) {
             mSavedTourId = Long.valueOf(getIntent().getLongExtra("id", -1));
+            mId = new BigDecimal(mSavedTourId).intValueExact();
+
             Log.d("GalleryActivity TAG", String.valueOf(mSavedTourId));
             Toast.makeText(getApplicationContext(), "저장된 아이디 : " + String.valueOf(mSavedTourId), Toast.LENGTH_SHORT).show();
         }
@@ -135,7 +137,7 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
                 Log.d(TAG, "getPath() : " + uri.getPath());
                 Log.d(TAG, "uri.getEncodedPath() : " + uri.getEncodedPath());
 
-                mPathList.add(uri.getPath());
+                // mPathList.add(uri.getPath());
 
                 mUriList.add(uri);
                 mBitmapScaleSetting.setTempImageFile();
@@ -161,11 +163,18 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
             case R.id.item_picture_load_complete: // 사진 선택 완료
                 Log.d(TAG, "사진 선택 완료");
 
+                int mainImgPosition = mGridAdapter.getmMainImgPosition();
+
                 /*
                     사진 DB에 저장
                  */
-                for (int i = 0; i < mPathList.size(); i++) {
-                    savePictureToDB(mPathList.get(i));
+                for (int i = 0; i < mUriList.size(); i++) {
+                    String path = mUriList.get(i).getPath();
+                    long savedPictureId = savePictureToDB(path);
+
+                    if (mainImgPosition != -1 && mainImgPosition == i) { // 대표이미지
+                        saveMainPictureToDB(savedPictureId);
+                    }
                 }
 
                 Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
@@ -179,16 +188,28 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
         }
     }
 
+    /*
+        메인이미지 저장
+     */
+    private long saveMainPictureToDB(long pId) {
+        TourListFacade tourListFacade = new TourListFacade(getApplicationContext());
+        int intPid = new BigDecimal(pId).intValueExact();
+        long savedId = tourListFacade.saveMainPicture(mId, intPid);
+        Log.d("Gallery TAG(main save)", String.valueOf(savedId)); // up count
+        return savedId;
+    }
+
+    /*
+         이미지 한장씩 DB에 저장
+     */
     private long savePictureToDB(String path) {
         TourListFacade tourListFacade = new TourListFacade(getApplicationContext());
-        int mId = new BigDecimal(mSavedTourId).intValueExact();
         Info_PHOTODT info_photodt = new Info_PHOTODT(mId, path);
         long savedId = tourListFacade.savePicture(info_photodt);
         return savedId;
     }
 
     private Info_PHOTODT makeInfoPhoto(String path) {
-        int mId = new BigDecimal(mSavedTourId).intValueExact();
         Info_PHOTODT info_photodt = new Info_PHOTODT(mId, path);
         return info_photodt;
     }

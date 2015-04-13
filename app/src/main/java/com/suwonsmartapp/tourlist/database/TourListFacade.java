@@ -64,4 +64,12 @@ public class TourListFacade {
         mDatabaseHelper.close();
     }
 
+    public long saveMainPicture(int id, int pid) {
+        mDatabaseHelper.open();
+        long savedId = mDatabaseHelper.LISTMT_updatePhoto(id, pid);
+        mDatabaseHelper.close();
+        return savedId;
+    }
+
+
 }
