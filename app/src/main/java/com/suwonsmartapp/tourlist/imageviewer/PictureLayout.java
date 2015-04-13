@@ -22,26 +22,38 @@
  * SOFTWARE.
  */
 
-package com.suwonsmartapp.tourlist.adapter;
-
-import com.suwonsmartapp.tourlist.R;
+package com.suwonsmartapp.tourlist.imageviewer;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.suwonsmartapp.tourlist.R;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by junsuk on 15. 4. 7.. 사진을 테이블 형태로 출력 해 주는 레이아웃
  */
-public class PictureLayout extends TableLayout {
+public class PictureLayout extends TableLayout implements View.OnClickListener {
 
     private Context mContext;
     private List<Integer> mList;
     private int mNumColums = 1;
+
+    private OnClickListener mOnClickListener;
+
+    public interface OnClickListener {
+        void onClick(Serializable data);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        mOnClickListener = listener;
+    }
 
     public PictureLayout(Context context) {
         this(context, null);
@@ -54,11 +66,13 @@ public class PictureLayout extends TableLayout {
         mList = new ArrayList<>();
 
         // 컬럼 수를 2로 설정
-        setNumColumns(2);
+        setNumColumns(6);
         setStretchAllColumns(true);
 
         // TODO 실제 데이타로 교체
         init();
+
+        setOnClickListener(this);
     }
 
     @Override
@@ -104,4 +118,10 @@ public class PictureLayout extends TableLayout {
         mNumColums = numColumns;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mOnClickListener != null) {
+            mOnClickListener.onClick((Serializable)mList);
+        }
+    }
 }

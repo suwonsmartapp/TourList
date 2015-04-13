@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.suwonsmartapp.tourlist.adapter;
+package com.suwonsmartapp.tourlist.imageviewer;
 
 import com.suwonsmartapp.tourlist.R;
 

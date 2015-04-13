@@ -9,9 +9,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.suwonsmartapp.tourlist.adapter.PictureLayout;
+import com.suwonsmartapp.tourlist.imageviewer.ImageViewer;
+import com.suwonsmartapp.tourlist.imageviewer.PictureLayout;
 
-public class ResultsActivity extends ActionBarActivity {
+import java.io.Serializable;
+
+public class ResultsActivity extends ActionBarActivity implements PictureLayout.OnClickListener {
 
     private PictureLayout mPictureLayout;
 
@@ -21,6 +24,7 @@ public class ResultsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_results);
 
         mPictureLayout = (PictureLayout) findViewById(R.id.tableLayout_pictures);
+        mPictureLayout.setOnClickListener(this);
     }
 
 
@@ -70,5 +74,13 @@ public class ResultsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(Serializable data) {
+        Intent intent = new Intent(getApplicationContext(), ImageViewer.class);
+        intent.putExtra("imageList", data);
+
+        startActivity(intent);
     }
 }

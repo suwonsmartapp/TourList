@@ -67,6 +67,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".imageviewer.ImageViewer" />
+
     </application>
 
 </manifest>

@@ -85,7 +85,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Pictures" />
 
-            <com.suwonsmartapp.tourlist.adapter.PictureLayout
+            <com.suwonsmartapp.tourlist.imageviewer.PictureLayout
                 android:id="@+id/tableLayout_pictures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
