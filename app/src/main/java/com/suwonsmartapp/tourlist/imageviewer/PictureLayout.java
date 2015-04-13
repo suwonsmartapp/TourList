@@ -24,14 +24,16 @@
 
 package com.suwonsmartapp.tourlist.imageviewer;
 
-import com.suwonsmartapp.tourlist.R;
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ import java.util.List;
 public class PictureLayout extends TableLayout implements View.OnClickListener {
 
     private Context mContext;
-    private List<Integer> mList;
+    private List<Uri> mList;
     private int mNumColums = 1;
 
     private OnClickListener mOnClickListener;
@@ -64,17 +66,17 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
         setOnClickListener(this);
     }
 
-    public void setOnClickListener(OnClickListener listener) {
+    public void setOnPictureClickListener(OnClickListener listener) {
         mOnClickListener = listener;
     }
 
     @Override
     protected void onFinishInflate() {
-        init(); // TODO 실제 데이타로 교체
+        // init(); // TODO 실제 데이타로 교체
         setLayout(mList);
     }
 
-    private void setLayout(List<Integer> list) {
+    private void setLayout(List<Uri> list) {
         mList = list;
 
         removeAllViewsInLayout();
@@ -86,24 +88,30 @@ public class PictureLayout extends TableLayout implements View.OnClickListener {
             if (i % mNumColums == 0) {
                 tableRow = new TableRow(mContext);
             }
-            SquareImageView squareImageView = new SquareImageView(mContext);
-            squareImageView.setImageResource(mList.get(i));
-            tableRow.addView(squareImageView, params);
+            try {
+                SquareImageView squareImageView = new SquareImageView(mContext);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(),
+                        mList.get(i));
+                squareImageView.setImageBitmap(bitmap);
+                tableRow.addView(squareImageView, params);
 
-            if (i % mNumColums == mNumColums - 1 || i == mList.size() - 1) {
-                addView(tableRow);
+                if (i % mNumColums == mNumColums - 1 || i == mList.size() - 1) {
+                    addView(tableRow);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
     }
 
-    private void init() {
-        for (int i = 0; i < 5; i++) {
-            mList.add(R.drawable.car);
-            mList.add(R.drawable.girl);
-            mList.add(R.drawable.gold_apple);
-        }
-    }
+    // private void init() {
+    // for (int i = 0; i < 5; i++) {
+    // mList.add(R.drawable.car);
+    // mList.add(R.drawable.girl);
+    // mList.add(R.drawable.gold_apple);
+    // }
+    // }
 
     /**
      * 컬럼 수를 지정한다
