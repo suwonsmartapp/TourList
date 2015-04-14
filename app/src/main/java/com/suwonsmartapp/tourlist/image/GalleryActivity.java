@@ -29,6 +29,7 @@ import com.suwonsmartapp.tourlist.image.util.GetMaxTextureSize;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GalleryActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -127,11 +128,9 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = data.getData(); // Received Data from the intent
 
-                mPathList.add(getAbsolutePathFromUri(uri));
-
-                Log.d(TAG, "image data : " + data.toString());
-                Log.d(TAG, "getPath() : " + uri.getPath());
-                Log.d(TAG, "uri.getEncodedPath() : " + uri.getEncodedPath());
+                // Log.d(TAG, "image data : " + data.toString());
+                // Log.d(TAG, "getPath() : " + uri.getPath());
+                // Log.d(TAG, "uri.getEncodedPath() : " + uri.getEncodedPath());
 
                 mUriList.add(uri);
                 mBitmapScaleSetting.setTempImageFile();
@@ -189,6 +188,9 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
                                 }
                             }
 
+                            // mPathList 에 절대경로 리스트 저장
+                            makePathList(mUriList);
+
                             Intent intent = new Intent(getApplicationContext(),
                                     ResultsActivity.class);
                             intent.putExtra("picturePathList", mPathList);
@@ -211,6 +213,14 @@ public class GalleryActivity extends ActionBarActivity implements View.OnClickLi
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void makePathList(List<Uri> uriList) {
+        int size = uriList.size();
+        for (int i = 0; i < size; i++) {
+            mPathList.add(getAbsolutePathFromUri(uriList.get(i)));
+        }
+    }
+
 
     private String getAbsolutePathFromUri(Uri uri) {
         Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null, null, null);

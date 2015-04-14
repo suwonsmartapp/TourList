@@ -264,14 +264,14 @@ public class DatabaseHelper {
         return addResult;
     }
 
-    public long LISTMT_insertColumn(Info_LISTMT data) {
-        return this.LISTMT_insertColumn(data.title1);
-    }
-
 //    public long LISTMT_insertColumn(Info_LISTMT data) {
-//        return this.LISTMT_insertColumn(data.title1, data.title2, data.title3, data.contents,
-//                data.weather, data.companion, data.location, data.tdt);
+//        return this.LISTMT_insertColumn(data.title1);
 //    }
+
+    public long LISTMT_insertColumn(Info_LISTMT data) {
+        return this.LISTMT_insertColumn(data.title1, data.title2, data.title3, data.contents,
+                data.weather, data.companion, data.location, data.tdt);
+    }
 
     // TT_LISTMT : Delete Data
     public int LISTMT_deleteColumn(int id){
